@@ -37,6 +37,8 @@ int isPalindrome(char str[]) {
     return 1; // Palindrome
 }
 
+
+
 // Fake Section 1
 int isPalindrome(char str[]) {
     int right = 0;
