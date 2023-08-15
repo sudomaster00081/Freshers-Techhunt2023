@@ -1,4 +1,9 @@
 import os
+import time
+import os
+import time
+import threading
+import webbrowser
 
 def clear_screen():
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -65,19 +70,33 @@ def won():
         """
     s1.append(c)
     while True:
-        print(s1[0])
-        clear_screen()
-        print(s1[1])
-        clear_screen()
-        print(s1[2])
-        clear_screen()
+        for art in s1:
+            print(art)
+            time.sleep(1)
+            clear_screen()
 
+
+def play_video():
+    webbrowser.open("https://cdn.dribbble.com/users/311928/screenshots/6574034/congrats1.png")
+
+def success():
+    clear_screen()
+    won_thread = threading.Thread(target=won)
+    video_thread = threading.Thread(target=play_video)
+        
+    won_thread.start()
+    video_thread.start()
+        
+    won_thread.join()
+    video_thread.join()
 
 def is_close_answer(user_answer, correct_answer):
     return user_answer in correct_answer or ("ai" in correct_answer and "ai" in user_answer)
 
 def get_hint(correct_answer, user_answer):
     if any(char.isalpha() for char in correct_answer):
+        if "artificial intelligence" in user_answer:
+            success()
         if "ai" in user_answer:
             return "You're closer! The answer is a combination of two words."
         return "You're closer!"
@@ -116,19 +135,21 @@ def main():
     """)
     
     questions = [
-        "How many AC does the Department Theatre Classroom have?",
+        
         "If a book has 450 pages and it takes 5 minutes to read each page, how long will it take to read the entire book (in minutes)?",
         "If a shirt costs 2250 after a 25% discount, what was the original price of the shirt?",
+        'Introducing a boy, a girl said, "He is the son of the daughter of the father of my uncle." How is the boy related to the girl?',
         "A clock strikes once at 1 o'clock, twice at 2 o'clock, and so on. How many times will it strike in 24 hours?",
         "\"Something that becomes a part of your life, even after you leave Here. What is it?\""
     ]
     
     answers = [
-        "4",
+        
         "2250",
         "3000",
+        "brother",
         "156",
-        "artificial intelligence"
+        "artificial intelligence, ai"
     ]
     
     num_questions = len(questions)
@@ -149,14 +170,12 @@ def main():
     clear_screen()
     
     if correct_count == num_questions:
-        clear_screen()
-    
-        won()
+        success()
         print("Congratulations! You answered all questions correctly.")
 
     else:
         print("Questionnaire incomplete. You answered", correct_count, "out of", num_questions, "questions correctly.")
 
 if __name__ == "__main__":
-    won()
+    
     main()
