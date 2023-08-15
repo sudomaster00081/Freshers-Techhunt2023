@@ -72,7 +72,7 @@ def won():
     while True:
         for art in s1:
             print(art)
-            time.sleep(.5)
+            time.sleep(.75)
             clear_screen()
 
 
@@ -82,10 +82,11 @@ def play_video():
 def success():
     clear_screen()
     won_thread = threading.Thread(target=won)
-    time.sleep(3)
+    
     video_thread = threading.Thread(target=play_video)
         
     won_thread.start()
+    time.sleep(4)
     video_thread.start()
         
     won_thread.join()
